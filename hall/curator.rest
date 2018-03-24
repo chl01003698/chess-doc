@@ -1,0 +1,59 @@
+
+@host = http://192.168.225.95:7005
+# @host = http://192.168.221.38:7002
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+@testUser1 = 5a79676b3c0ddb3de8bb2946
+@shortId = 100003
+
+# 获取棋牌室信息
+GET {{host}}/api/v1/curators/{{shortId}} HTTP/1.1
+Authorization: {{timeToken}}
+###########################################################
+
+# 创建棋牌室
+POST {{host}}/api/v1/curators HTTP/1.1
+content-type: application/json
+
+{
+    "enabled": true,
+    "name": "空心木",
+    "declaration":"369棋牌，简简单单，一学就会!"
+}
+###########################################################
+
+# 添加馆员
+PUT {{host}}/api/v1/curators HTTP/1.1
+content-type: application/json
+
+{
+    "shortId": {{shortId}},
+    "id": "{{testUser1}}"
+}
+##########################################################
+
+# 获取棋牌室宣言
+# 请求URL:{{host}}/api/v1/curators/declaration/:shortId
+# 请求参数:
+    # shortId:number  棋牌室标识
+GET  {{host}}/api/v1/curators/declaration/{{shortId}} HTTP/1.1
+content-type: application/json
+
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "_id": "5a71969908d90417b8b8f9c6",
+#     "declaration": "目空一切,唯我独尊,尔等要多多消费、充值"
+#   }
+# }
+################################################################
+
+# 馆长绑定棋牌室
+PUT {{host}}/api/v1/curators/bind HTTP/1.1
+content-type: application/json
+
+{
+    "shortId": {{shortId}},
+    "user": "{{testUser1}}"
+}

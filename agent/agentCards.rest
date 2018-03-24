@@ -1,0 +1,222 @@
+@host =192.168.225.106:7001
+######
+# code 状态码
+# 0 正常
+# -1 错误提示
+# -2 session过期跳转登录界面
+# 
+#######
+
+##########################===转卡列表馆长/代理共用===##############################
+#参数
+#limit
+#page
+GET http://{{host}}/api/v1/agentcards?limit=10&page=1 HTTP/1.1
+
+# 返回结果
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "children": { 
+#       "_id": "5a5ed9810435202727e8d981",
+#       "shortId": 100024,
+#       "updatedAt": "2018-01-17T05:05:05.512Z",
+#       "createdAt": "2018-01-17T05:05:05.512Z",
+#       "__v": 0,
+#       "deleted": false,
+#       "childCount": 6, #管内用户总数
+#       "children": [    #管内用户数据
+#         {
+#           "_id": "5a5ed9840435202727e8d986",
+#           "shortId": 100071, #管内用户短id
+#           "coin": {
+#             "stock": 0, 
+#             "card": 0         #卡数
+#           },
+#           "nickname": "" #管内用户昵称
+#         }
+#       ],
+#       "award": 0,
+#       "date": "2018-01-17T05:05:05.510Z",
+#       "level": 0,
+#       "block": false,
+#       "enabled": true,
+#       "name": "天天赢钱" # 棋牌室名称
+#     },
+#     "curatorInfo": { 馆长信息 / 代理信息
+#       "coin": {
+#         "card": 0, 卡数
+#         "stock": 0 库存数
+#       },
+#       "nickname": "",     #馆长/代理 昵称
+#       "shortId": 100070  #馆长/代理 短id
+#     }
+#   }
+# }
+#  代理
+# "sumPay": 0          销售额  用户维度 充值 
+# "purchaseAmount": 0, 进货额 馆长维度
+# childCount     管内用户
+# "stock"       库存
+# "cardConsume": 70,   卡消耗 用户维度
+
+##########################===馆长解绑用户===##############################
+#参数
+# childrenShortId  用户sortId
+POST http://{{host}}/api/v1/agents/untyingUsers HTTP/1.1
+Content-Type: application/json
+
+{
+	"childrenShortId": "102836"
+}
+
+##########################===转卡查找指定用户/代理查找指定馆长===##############################
+#参数
+#100015 是shortId
+GET http://{{host}}/api/v1/agentcards/102441 HTTP/1.1
+
+#返回
+# ID = shortId 
+# 昵称 = nickname
+# 房卡数 = coin.card
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "id": "5a5ed9840435202727e8d986",
+#     "shortId": 100071, 短ID
+#     "createdAt": "2018-01-17T05:05:08.975Z", 创建时间
+#     "bindCard": 0, 房卡数
+#     "nickname": "" 昵称
+#   }
+# }
+
+#代理
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "id": "5a6fe4d21082fb514ab6db99",
+#     "shortId" 100531 短ID
+#     "createdAt": "2018-01-30T03:21:54.649Z",
+#     "bindCard": 10, 房卡
+#     "childCount": 10, 管内总用户数 
+#     "stock": 10,  库存
+#     "nickname": "测试用户18858124960", 昵称
+#     "realname": "", 真实姓名
+#     "phone": "18858124960", 登录电话
+#     "purchaseAmount": 0 进货额
+#   }
+# }
+
+##########################===转卡 给指定用户===##############################
+# 参数
+# childrenid 管内用户 sortId
+# cardnum   管内用户接收卡数
+POST  http://{{host}}/api/v1/agentcards HTTP/1.1
+content-type: application/json
+
+{
+    "childrenid":"1050111",
+    "cardnum":"1"
+}
+# 5a5ed9810435202727e8d983 
+# 5a5ed9810435202727e8d983
+# 5a5ed9840435202727e8d986
+
+
+##########################===转卡 转卡给自己===##############################
+# 参数
+# childrenid 管内用户 sortId
+# cardnum   管内用户接收卡数
+POST  http://{{host}}/api/v1/agentcards/stocktocard HTTP/1.1
+content-type: application/json
+
+{
+    # "childrenid":"101275",
+    "cardnum":"1"
+}
+
+
+
+##########################===转卡 库存列表(进货 转出 奖励 转入===##############################
+#参数
+#year 日期 选填
+#type 类型 选填 // 0进货 1奖励 2转入 3转出
+#limit 条数量 选填
+#page 页数 选填
+GET http://{{host}}/api/v1/stocklist/?date=2018-02&type=-1&limit=3&page=1 HTTP/1.1
+# GET http://{{host}}/api/v1/stocklist/?type=0&limit=3&page=1 HTTP/1.1
+
+# 返回
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "list": [
+#       {
+        # "_id": "5a748248e687aa3bdd6620bf",
+        # "createdAt": "2018-02-02T15:22:48.285Z",
+        # "source": {
+        #   "_id": "5a746e4b7024aa381cdd4345",
+        #   "shortId": 105003,
+        #   "nickname": "测试馆长18849233294"
+        # },
+        # "target": {
+        #   "_id": "5a746e4b7024aa381cdd434b",
+        #   "shortId": 105009,
+        #   "nickname": "测试用户18823521640"
+        # },
+        # "changeStock": 1, 转出货币数
+        # "type": 3 # 0全部 1进货 2转出 3奖励
+#       }
+#     ],
+#     "count": 3
+#   }
+# }
+
+
+##########################===进货===##############################
+#参数
+#num 进货量 必填
+#channel 支付渠道
+POST  http://{{host}}/api/v1/purchase HTTP/1.1
+content-type: application/json
+
+{
+    "num":"10",
+   "channel":"wx_wap"
+}
+
+# 返回
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": true  # true 进货成功 false 进货失败
+# }
+
+
+##########################===订单状态查询===##############################
+#参数
+#订单状态查询
+#transactionid ping++ 生成的id
+POST  http://{{host}}/api/v1/agentcards/orderstatus HTTP/1.1
+content-type: application/json
+
+{
+    "transactionid":"ch_DyjDC8rr58y5qLeP4Sbr9K80"
+}
+
+#返回
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "purchased": false  # true 支付成功 false 等待Ping++ 回抛
+#   }
+# }
+
+##########################===Ping++ 自动回调接口 ===##############################
+POST  http://{{host}}/api/pingcallback HTTP/1.1
+content-type: application/json

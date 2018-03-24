@@ -1,0 +1,46 @@
+@host = http://192.168.225.95:7005
+
+
+GET {{host}}/public/index.html#/home
+###
+
+# 下载游戏
+GET {{host}}/public/index.html#/downGames
+###
+
+# 活动
+# {{host}}/public/index.html#/event?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+GET {{host}}/public/index.html#/event
+###
+
+# 消息
+# {{host}}/public/index.html#/message?id=5a66ba7a55b16f00f4b6b5fa&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+# 请求参数：
+    # id:string         用户标识
+    # token:string      token验证
+GET {{host}}/public/index.html#/message
+###
+
+# 规则
+GET {{host}}/public/index.html#/rules
+###
+
+# 代理申请
+GET {{host}}/public/index.html#/agencyApplication
+###
+
+# 我要当馆长
+GET {{host}}/public/index.html#/becomeCurator
+###
+
+# 发红包
+GET {{host}}/public/index.html#/redEnvelope
+###
+
+# 邀请好友
+GET {{host}}/public/index.html#/invitingFriends
+###
+
+# 游戏记录
+GET {{host}}/public/index.html#/gameRecord
+###

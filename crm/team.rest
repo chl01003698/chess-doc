@@ -1,0 +1,230 @@
+
+@host = http://192.168.20.90:7001
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+@testUser1 = 5a66ba7a55b16f00f4b6b5fa
+@testUser2 = 5a65db343c9d123ffc9f871e
+@shortId = 100042
+
+# 创建用户
+# 请求URL:{{host}}/public/v1/users
+# 请求参数:
+    # code:string  
+    # platform:string     wechat | wechat_web | qq | company
+    # shortId:string   邀请码 可选参数 微信网页注册时必填 
+############################################################
+# 创建组织
+# code = 'create test' && platform = 'company' 
+POST {{host}}/api/v1/team/create HTTP/1.1
+content-type: application/json
+
+{
+	"name": "TeamF"   
+}
+##返回数据
+# {
+#   "code": 0,                            返回码，成功返回0，失败返回-1
+#   "msg": "ok",            
+#   "data": {
+#     "_id": "5a633a5391d1a69274bc560f",       用户标识
+#     "shortId": 100029,                       用户标识 邀请码
+#     "createdAt": "2018-01-20T12:47:15.032Z", 
+#     "gps": {
+#       "longitude": "",
+#       "latitude": ""
+#     },
+#     "bank": {
+#       "bankCode": 0,
+#       "bankName": "",
+#       "bankCardholder": "",
+#       "bankOpening": ""
+#     },
+#     "money": 0,
+#     "loginAt": "2018-01-20T12:47:15.027Z",
+#     "sumPay": 0,
+#     "headimgurl": "",                 头像url
+#     "counts": [],
+#     "count": {
+#       "count": 0,
+#       "winCount": 0,
+#       "series": 0,
+#       "seriesMax": 0,
+#       "name": ""
+#     },
+#     "coin": {                         用户资产
+#       "stock": 0,                     库存  
+#       "card": 100                     桌卡
+#     },
+#     "signature": "",
+#     "sex": 0,                         性别0＝女，1＝男
+#     "vipLevel": 0,
+#     "level": 0,
+#     "isGuest": false,
+#     "mobileAuth": {                   手机认证
+#       "password": "",
+#       "auth": false
+#     },
+#     "idCardNo": 0,
+#     "nickname": "测试100029"           昵称
+#   }
+# }
+############################################################
+
+
+
+# 用户登陆 获取用户信息
+# 请求URL:{{host}}/api/v1/users/:id
+# 请求参数:
+    # id:string   用户标识
+GET {{host}}/api/v1/users/{{testUser1}} HTTP/1.1
+Authorization: {{timeToken}}
+############################################################
+
+
+# 测试用户登陆 获取用户信息
+# 请求URL:{{host}}/api/v1/users/shortId/:shortId
+# shortId:number  用户标识
+GET {{host}}/api/v1/users/shortId/{{shortId}} HTTP/1.1
+Authorization: {{timeToken}}
+############################################################
+
+
+# 绑定手机号
+# 请求URL:{{host}}/api/v1/users/phone
+# 请求参数:
+    # id:string      用户标识
+    # phone:string   手机号
+    # code:string    短信验证码
+PUT {{host}}/api/v1/users/phone
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "id":"{{testUser1}}",
+    "phone": "13717807729",
+    "code": "8707"
+}
+#返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "_id": "5a63559bbf10638430dfac34",
+#     "mobileAuth": {
+#       "phone": "13717807729",
+#       "password": "",
+#       "auth": true
+#     }
+#   }
+# }
+############################################################
+
+
+# 短信验证码
+# 请求URL:{{host}}/api/v1/sms
+# 请求参数:
+    # id:string     用户标识
+    # phone:string  手机号
+POST {{host}}/api/v1/sms
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "id":"{{testUser1}}",
+    "phone": "13717807729"
+}
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "smscode": "4248",
+#     "mobile": "13717807729",
+#     "count": 1
+#   }
+# }
+############################################################
+
+
+# 实名认证
+# 请求URL:{{host}}/api/v1/users/realName
+# 请求参数:
+    # id:string     
+    # realName:string
+    # sex:number  0=男 | 1＝女 
+    # addrCode:string
+PUT {{host}}/api/v1/users/realName
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "id":"{{testUser1}}",
+    "realName": "褚红亮",
+    "addrCode":"41132919891015503X"
+}
+#返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "_id": "5a633a5391d1a69274bc560f",
+#     "realAuth": {
+#       "birth": "",
+#       "addr": "",
+#       "sex": 1,
+#       "addrCode": "41132919891015503X",
+#       "identity": "",
+#       "realname": "褚红亮",
+#       "auth": true
+#     }
+#   }
+# }
+############################################################
+
+# 修改昵称
+# 请求URL:{{host}}/api/v1/users/nickname
+# 请求参数:
+    # id:string     
+    # nickname:string
+PUT {{host}}/api/v1/users/nickname
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "id":"{{testUser1}}",
+    "nickname": "空心的木"
+}
+##成功返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "modified": true
+#   }
+# }
+############################################################
+
+# GPS
+# 请求URL:{{host}}/api/v1/users/gps
+# 请求参数:
+    # id:string     
+    #latitude:string,
+    #longitude:string
+PUT {{host}}/api/v1/users/gps
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "id":"{{testUser1}}",
+    "latitude":"00255",
+    "longitude":"4541"
+}
+
+#返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "modified": true
+#   }
+# }
+############################################################

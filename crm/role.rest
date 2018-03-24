@@ -1,0 +1,35 @@
+
+@host = http://192.168.21.123:7001
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+@testUser1 = 5a66ba7a55b16f00f4b6b5fa
+@testUser2 = 5a65db343c9d123ffc9f871e
+@shortId = 100042
+
+# 创建角色
+# 请求URL:{{host}}/api/v1/role/create
+# 请求参数:
+    # code:string  
+    # platform:string     wechat | wechat_web | qq | company
+    # shortId:string   邀请码 可选参数 微信网页注册时必填 
+############################################################
+# 创建公司测试用户
+# code = 'create test' && platform = 'company' 
+POST {{host}}/api/v1/role/create HTTP/1.1
+content-type: application/json
+
+{
+	"name": "管理员",
+    "isReview":1
+}
+##返回数据
+# {
+#   "code": 0,                            返回码，成功返回0，失败返回-1
+#   "msg": "ok",            
+#   "data": {
+#    
+#   }
+# }
+############################################################
+
+ 

@@ -1,0 +1,224 @@
+
+@host = http://192.168.21.123:7001
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+@testUser1 = ObjectId("5a7841ffd0b78ba5928e7b12")
+@testUser2 = 5a65db343c9d123ffc9f871e
+@shortId = 100042
+
+# 申请房卡
+# 请求URL:{{host}}
+# 请求参数:
+    # userId:string   申请者用户id
+    # toCurator: string    奖励馆长
+    # count: string    数量
+    # desc: string 描述
+ 
+############################################################
+# 申请新的房卡信息
+# code = 'create test' && platform = 'company' 
+POST {{host}}/api/v1/applycards/applyCardsInfo HTTP/1.1
+content-type: application/json
+
+{
+        "userId": "5a7841ffd0b78ba5928e7b12",
+        "toCurator": "5a7841c6d0b78ba5928e7c19",
+        "count": "50",
+        "desc": "申请50张用于奖励"    
+}
+##返回数据
+# {
+#   "code": 0,                            返回码，成功返回0，失败返回-1
+#   "msg": "ok",            
+#   "data": {   
+# }
+############################################################
+
+
+
+# 获取用户需要审核的房卡记录
+# 请求URL:{{host}}/api/v1/applycards/getIsReviewCards
+# 请求参数:
+    # userShortId: string   用户shortId
+
+GET {{host}}/api/v1/applycards/getIsReviewCards HTTP/1.1
+content-type: application/json
+
+{
+        "userId": "5a7841c6d0b78ba5928e7b11"
+}
+
+##返回数据
+#{
+  # "code": 0,
+  #  "msg": "ok",
+  #  "data": 1   //data:0没有要审核的房卡 data:1 有需要审核的房卡
+############################################################
+
+
+# 获取审核列表
+# 请求URL:{{host}}/api/v1/applycards/getMyReviewCardsList
+# userShortId: string   用户id  
+POST {{host}}/api/v1/applycards/getMyReviewCardsList HTTP/1.1
+content-type: application/json
+
+{
+        "userId": "5a7841c6d0b78ba5928e7b11"
+}
+############################################################
+
+
+# 同意房卡申请
+# 请求URL:{{host}}/api/v1/applycards/agreeApplyCards
+# 请求参数:
+    # _id: string  申请记录id
+    # userId: string   用户id
+    # count:  房卡数量 可选
+    # desc :   描述
+POST {{host}}/api/v1/applycards/agreeApplyCards
+content-type: application/json
+
+
+{   
+      "_id": "5a7c22cf87f84463e531db74",
+      "userId": "5a7841c6d0b78ba5928e7b11",
+      "count": 100,
+      "desc": "同意申请"
+}
+
+#返回数据
+#[
+#  {
+#    "_id": "5a7841c6d0b78ba5928e7b11"
+#  }
+#]
+############################################################
+
+
+# 拒绝房卡申请
+# 请求URL:{{host}}/api/v1/applycards/refuseApplyCards
+# 请求参数:
+    # _id: string  申请记录id
+    # userId: string   用户id
+    # desc :   描述
+POST {{host}}/api/v1/applycards/refuseApplyCards
+content-type: application/json
+
+
+{   
+      "_id": "5a7c475f1592346d64144f26",
+      "userId": "5a7841c6d0b78ba5928e7b11",
+      "desc": "拒绝申请"
+}
+
+#返回数据
+#[
+#  {
+#    "_id": "5a7841c6d0b78ba5928e7b11"
+#  }
+#]
+############################################################
+
+
+
+
+# 根据用户id查询详细信息
+# 请求URL:{{host}}/api/v1/users/:id
+# 请求参数:
+    # id:string     用户标识
+    # phone:string  手机号
+GET {{host}}/api/v1/users/{{testUser1}}
+content-type: application/json
+
+##返回数据 
+#{
+#  "_id": "5a7841c6d0b78ba5928e7b11",
+#  "shortId": 100028,
+#  "teams": "5a7556503d187583a1e416d2",
+#  "spreadUrl": "",
+#  "isFreeze": 0,
+#  "wechatId": "xuliang1123",
+#  "city": "保定市",
+#  "identityCard": "132765454312340987",
+#  "age": 11,
+#  "gender": 1,
+#  "userName": "许亮1",
+#  "parentId": "",
+#  "basicSalary": 6000,
+#  "password": "123456",
+#  "userId": "admin1"
+#}
+############################################################
+
+
+# 修改用户信息
+# 请求URL:{{host}}/api/v1/users/mod/:id
+# 请求参数:
+    # id:string     
+    # realName:string
+    # sex:number  0=男 | 1＝女 
+    # addrCode:string
+POST {{host}}/api/v1/users/mod/:id
+content-type: application/json
+
+{
+  "_id": "5a7841c6d0b78ba5928e7b11",
+  "wechatId": "xuliang1123",
+  "province": "河北",
+  "city": "保定",
+  "identityCard": "132765454312340987",
+  "age": 11,
+  "gender": 1,
+  "userName": "许亮1"
+}
+#返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "_id": "5a633a5391d1a69274bc560f"
+#     }
+#   }
+# }
+############################################################
+
+# 冻结某用户 
+# 请求URL:{{host}}/api/v1/users/freeze/:id
+# 请求参数:
+    # id:string     
+    # nickname:string
+POST {{host}}/api/v1/users/freeze/:id
+content-type: application/json
+
+{
+    "id":"{{testUser1}}",
+    "status":1
+}
+##成功返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "modified": true
+#   }
+# }
+############################################################
+
+# 获取冻结用户列表
+# 请求URL:{{host}}/api/v1/users/getFreezeList
+# 请求参数:
+  
+GET {{host}}/api/v1/users/getFreeze
+content-type: application/json
+
+ 
+
+#返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "modified": true
+#   }
+# }
+############################################################

@@ -1,0 +1,113 @@
+@host =192.168.225.106:7001
+
+##########################===获取银行卡信息===##############################
+GET http://{{host}}/api/v1/agentbanks/ HTTP/1.1
+
+# 返回
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "id": "5a5ed9810435202727e8d983", ID
+#     "shortId": 100070,                短ID
+#     "createdAt": "2018-01-17T05:05:05.527Z", 数据创建时间
+#     "bankOpening": "北京市朝阳区发发发支行", 开户行
+#     "bankName": "招商银行",                银行名称
+#     "bankCode": 0,                        银行卡号
+#     "bankCardholder":"财神"                持卡人
+#     "money"                               金额
+#     "nickname": "",                       昵称
+#     "phone": "18888882498"                电话号码
+#     "idCardNo" : "234452345xxxx"          身份证
+#   }
+# }
+
+##########################===修改银行卡信息===##############################
+# 参数
+# bankopening    开户行
+# bankname   银行名称
+# bankcode    银行卡号
+# bankcardholder 持卡人
+# bankphone 接收验证号手机
+# authCode 验证码
+
+POST http://{{host}}/api/v1/agentbanks/ HTTP/1.1
+content-type: application/json
+
+{
+    "bankopening": "北京市朝阳区发发发支行",   
+    "bankname": "招商银行",                 
+    "bankcode": "999999",                        
+    "bankcardholder":"财神",
+    "bankphone"  : "18686688429",
+    "authcode"   :"8891"
+}
+
+##########################===发送验证码===##############################
+#参数
+#发送验证码
+#phone 电话号
+#慎用
+POST   http://{{host}}/api/v1/agentbanks/verificationCode HTTP/1.1
+content-type: application/json
+
+{
+	"phone": "18686688429"
+}
+#成功
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "smscode": "9341"
+#   }
+# }
+#失败
+# {
+#   "code": -1, 
+#   "msg": "手机号码校验失败"
+# }
+# {
+#     code: 22,
+#     msg: '验证码类短信1小时内同一手机号发送次数不能超过3次', 
+# }
+# {
+#     code: 33,
+#     msg: "号码：13717807729, 超过频率，同一个手机号同一验证码模板每30秒只能发送一条",
+# }
+
+##########################===用户申请提现===##############################
+# 参数
+# money 提款数
+# phone 接收验证号手机findWithdrawalsSameDayCount
+# authCode 验证码
+POST http://{{host}}/api/v1/agentbanks/withdrawals HTTP/1.1
+content-type: application/json
+
+{
+	"money": "1",
+	"phone": "18686688429",
+	"authCode": "9663"
+}
+
+##########################===提现列表===##############################
+#提现列表
+#limit 条数
+#page 页数
+GET  http://{{host}}/api/v1/agentbanks/withdrawalslist?limit=2&page=0 HTTP/1.1
+
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "list": [
+#       {
+#         "_id": "5a602a63d59ecd66f4cb93cb",
+#         "createdAt": "2018-01-18T05:02:27.312Z", #申请日期
+#         "isSuccess": false,                      # false 审核中 true 提现成功
+#         "mongey": 10                             # 提现金额
+#       }
+#     ],
+#     "count": 15                                   #总条数
+#   }
+# }

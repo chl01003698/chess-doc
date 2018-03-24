@@ -1,0 +1,29 @@
+# @host =192.168.221.38:7001
+@host =192.168.225.106:7001
+
+###
+#生成测试数据
+#生成馆长
+GET http://{{host}}/api/tests/index HTTP/1.1
+
+###
+#生成测试数据 
+#生成代理
+GET http://{{host}}/api/tests/agent HTTP/1.1
+
+###
+#生成测试数据 
+#生成代理+
+GET http://{{host}}/api/tests/agentsuper HTTP/1.1
+
+####
+GET http://{{host}}/api/tests/createchessandagent HTTP/1.1
+
+###
+GET http://{{host}}/api/tests/createusers?num=1 HTTP/1.1
+
+###
+GET http://{{host}}/api/tests/createcurator?userId=5a75b9eb64622c6ab394ff07 HTTP/1.1
+
+####
+GET http://{{host}}/tests/gmjpg HTTP/1.1

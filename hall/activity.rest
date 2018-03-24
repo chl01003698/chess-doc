@@ -1,0 +1,44 @@
+
+@host = http://192.168.225.95:7005
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken= Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+
+
+# 活动列表
+# 请求URL:{{host}}/api/v1/activities
+# 请求参数:
+    # id:string 用户标识
+GET {{host}}/api/v1/activities
+Authorization: {{token}}
+
+##返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": [
+#     {
+#       "link": "",                             活动H5链接
+#       "imageurl": "",                         活动图片
+#       "weight": 0,
+#       "btnTitle": "恭贺新春"
+#     }
+#   ]
+# }
+############################################################
+
+# 创建活动
+# 请求URL:{{host}}/api/v1/activities 
+POST {{host}}/api/v1/activities
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "btnTitle" : "每日签到得房卡",
+    "weight":0,
+    "imageurl":"/public/source/activity.jpg",
+    "link":"/public/source/index.html"
+}
+############################################################
+
+# 删除活动表数据
+DELETE {{host}}/api/v1/activities

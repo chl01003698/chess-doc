@@ -1,0 +1,45 @@
+
+@host = http://192.168.225.95:7005
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken= Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+@testUser1 = 5a784d70d26d370b981462f1
+
+
+# 创建订单
+# 请求URL:{{host}}/api/v1/orders
+# 请求参数:
+    # userId:string      用户标识
+    # channel:string     支付渠道
+    # platform:string    操作系统平台
+    # amount:number      数量
+    # rmb:number         应支付总额
+    # client_ip:string   发起支付请求客户端的 IPv4 地址，如: 127.0.0.1
+    # baseCoin:number    基础货币数量
+    # extraCoin:number   额外赠送货币数量
+POST  {{host}}/api/v1/orders
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "userId":    "{{testUser1}}",
+    "channel":    "wx",
+    "platform":   "Android",        
+    "amount":     1,
+    "rmb":        15,
+    "clientIp":  "127.0.0.1",
+    "baseCoin":   15,
+    "extraCoin":  15
+}
+###############################################################
+
+# 支付回调
+# 请求URL:{{host}}/api/v1/orders/callback
+POST  {{host}}/api/v1/orders/callback
+content-type: application/json
+Authorization: {{token}}
+
+{
+  "id": "ch_8yf10G0WT0m9X5K8G4K8y9eD"
+}
+
+http://e8az3n.natappfree.cc/api/pingcallback

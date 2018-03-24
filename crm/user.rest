@@ -1,0 +1,236 @@
+
+@host = http://192.168.21.123:7001
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+@testUser1 = 5a7841c6d0b78ba5928e7b11
+@testUser2 = 5a65db343c9d123ffc9f871e
+@shortId = 100042
+
+# 创建用户
+# 请求URL:{{host}}/public/v1/users
+# 请求参数:
+    # userId:string  
+    # password: string     
+    # level: string    下拉框可选如：管理员，高级总监 ，区域总监 
+    # teams: string 组织名称
+    # basicSalary: int  基础薪水
+    # userName: string  "用户名"
+    # parentId: string  所属上级  可为空,管理员没有上级
+    # gender: 性别
+    # age : 年龄
+    # identityCard: string  身份证号
+    # province: string 省
+    # city: 市
+    # wechatId: string 公众号 
+############################################################
+# 创建公司测试用户
+# code = 'create test' && platform = 'company' 
+POST {{host}}/api/v1/users/test HTTP/1.1
+content-type: application/json
+
+{
+       "userId": "13269526666",
+        "password": "123456",
+        "roleName": "推广员",
+        "teams": "TeamF",
+        "basicSalary": 6000,
+        "userName": "许亮5",
+        "parentId": "13269525555",
+        "gender": 0,
+        "age": 20,
+        "identityCard": "13123456786666",
+        "province": "河北省",
+        "city": "保定市",
+        "wechatId": "xuliang6666"
+}
+##返回数据
+# {
+#   "code": 0,                            返回码，成功返回0，失败返回-1
+#   "msg": "ok",            
+#   "data": {   
+# }
+############################################################
+
+
+
+# 用户登陆 获取用户信息
+# 请求URL:{{host}}/api/v1/users/:id
+# 请求参数:
+    # userId: string   用户id
+    # password: 用户密码 
+POST {{host}}/api/v1/users/signin HTTP/1.1
+content-type: application/json
+
+{
+        "userId": "13269520000",
+        "password": "123456"
+}
+
+##返回数据
+#{
+  # "code": 0,
+  # "msg": "ok",
+  # "data": {
+  # "shortId": 100072,
+   # "spreadUrl": "",
+   # "wechatId": "xuliang00000",
+   # "city": "保定市",
+   # "identityCard": "13123456786500000",
+   # "age": 30,
+   # "gender": 0,
+   # "userName": "许亮0",
+   # "basicSalary": 6000,
+   # "userId": "13269520000",
+   # "isAdmin": 1,
+   # "isFreeze": 0 
+  #}
+############################################################
+
+
+# 根据用户昵称和userid搜索
+# 请求URL:{{host}}/api/v1/users/searchname
+# content: string   用户id 或 用户昵称
+POST {{host}}/api/v1/users/searchname HTTP/1.1
+content-type: application/json
+
+{
+        "content": "xuliang1"
+}
+############################################################
+
+
+# 根据省市 搜索用户
+# 请求URL:{{host}}/api/v1/users/queryuser
+# 请求参数:
+    # province: string   省  可选
+    # level: string   等级    可选
+POST {{host}}/api/v1/users/queryuser
+content-type: application/json
+
+
+{
+    "province":"河北省"
+}
+#返回数据
+#[
+#  {
+#    "_id": "5a7841c6d0b78ba5928e7b11",
+#    "shortId": 100028,
+#    "teams": "5a7556503d187583a1e416d2",
+#    "spreadUrl": "",
+#    "isFreeze": 0,
+#    "wechatId": "xuliang1123",
+#    "city": "保定市",
+#    "identityCard": "132765454312340987",
+#    "age": 11,
+#    "gender": 1,
+#    "userName": "许亮1",
+#    "parentId": "",
+#    "basicSalary": 6000,
+#    "password": "123456",
+#    "userId": "admin1"
+#  }
+#]
+############################################################
+
+
+# 根据用户id查询详细信息
+# 请求URL:{{host}}/api/v1/users/:id
+# 请求参数:
+    # id:string     用户标识
+    # phone:string  手机号
+GET {{host}}/api/v1/users/{{testUser1}}
+content-type: application/json
+
+##返回数据 
+#{
+#  "_id": "5a7841c6d0b78ba5928e7b11",
+#  "shortId": 100028,
+#  "teams": "5a7556503d187583a1e416d2",
+#  "spreadUrl": "",
+#  "isFreeze": 0,
+#  "wechatId": "xuliang1123",
+#  "city": "保定市",
+#  "identityCard": "132765454312340987",
+#  "age": 11,
+#  "gender": 1,
+#  "userName": "许亮1",
+#  "parentId": "",
+#  "basicSalary": 6000,
+#  "password": "123456",
+#  "userId": "admin1"
+#}
+############################################################
+
+
+# 修改用户信息
+# 请求URL:{{host}}/api/v1/users/mod/:id
+# 请求参数:
+    # id:string     
+    # realName:string
+    # sex:number  0=男 | 1＝女 
+    # addrCode:string
+POST {{host}}/api/v1/users/mod/:id
+content-type: application/json
+
+{
+  "_id": "5a7841c6d0b78ba5928e7b11",
+  "wechatId": "xuliang1123",
+  "province": "河北",
+  "city": "保定",
+  "identityCard": "132765454312340987",
+  "age": 11,
+  "gender": 1,
+  "userName": "许亮1"
+}
+#返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "_id": "5a633a5391d1a69274bc560f"
+#     }
+#   }
+# }
+############################################################
+
+# 冻结某用户 
+# 请求URL:{{host}}/api/v1/users/freeze/:id
+# 请求参数:
+    # id:string     
+    # nickname:string
+POST {{host}}/api/v1/users/freeze/:id
+content-type: application/json
+
+{
+    "id":"{{testUser1}}",
+    "status":1
+}
+##成功返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "modified": true
+#   }
+# }
+############################################################
+
+# 获取冻结用户列表
+# 请求URL:{{host}}/api/v1/users/getFreezeList
+# 请求参数:
+  
+GET {{host}}/api/v1/users/getFreeze
+content-type: application/json
+
+ 
+
+#返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "modified": true
+#   }
+# }
+############################################################

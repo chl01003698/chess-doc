@@ -1,0 +1,38 @@
+
+@host = http://192.168.225.95:7005
+@testUser1 = 5a7a7f2fa33c14838814b96c
+
+
+# 分享奖励 
+# 请求URL:{{host}}/public/v1/awards/shareaward/:id
+GET {{host}}/public/v1/awards/shareaward/{{testUser1}} HTTP/1.1
+Authorization: {{timeToken}}
+##################################################################
+
+
+# 幸运抽奖
+# 请求URL:{{host}}/public/v1/awards/luckaward?id
+GET {{host}}/public/v1/awards/luckaward?id={{testUser1}} HTTP/1.1
+Authorization: {{timeToken}}
+##################################################################
+
+
+# 邀请好友奖励
+# 请求URL:{{host}}/api/v1/awards/inviteaward
+# 请求参数:
+    # id:string 用户标识 
+    # index:number 奖励标识   1|2|3
+PUT  {{host}}/api/v1/awards/inviteaward
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "id":"{{testUser1}}",
+    "index":2
+}
+
+
+#####################################################################
+
+
+

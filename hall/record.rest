@@ -1,0 +1,87 @@
+
+@host = http://192.168.225.95:7005
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken= Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+@testUser1 = 5a784d70d26d370b981462f1
+
+
+# 战绩列表
+# 请求URL:{{host}}/api/v1/records/:userId/:gameType 
+# 请求参数:
+    # userId:string 用户标识
+    # game:string 游戏标识  doudizhu | 
+GET  {{host}}/api/v1/records/{{testUser1}}/doudizhu
+content-type: application/json
+Authorization: {{token}}
+
+##返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": [
+#     {
+#       "_id": "5a634aa50cfb38843c6d3791",
+#       "updatedAt": "2018-01-20T13:56:53.044Z",
+#       "createdAt": "2018-01-20T13:56:53.044Z",        创建日期
+#       "owner": "5a633a5391d1a69274bc560f",            创建人
+#       "game": "doudizhu",                             游戏标识
+#       "type": "sanzhang"                              玩法类型
+#       "roomId": "001200",                             房间号
+#       "done": true,                                   是否打完
+#       "playbackIds": [                                回放id数组
+#         "00155255"                                    回放id
+#       ],
+#       "rounds": [],
+#       "players": [                                    每一小局的数组
+#         {
+#           "user": {
+#             "_id": "5a633a5391d1a69274bc560f",
+#             "shortId": 100029,
+#             "headimgurl": "",
+#             "isGuest": false,
+#             "nickname": "测试100029"
+#           },
+#           "_id": "5a634aa50cfb38843c6d3792",
+#           "drawCount": 0,                             
+#           "loseCount": 1,                              输的次数
+#           "winCount": 1,                               赢的次数
+#           "score": 1                                   分数
+#         }
+#       ],
+#       "currentRound": 4,                               
+#       "roundCount": 6                                  设置总局数
+#     }
+#   ]
+# }
+###
+
+
+# 创建战绩
+# 请求URL:{{host}}/api/v1/records  
+POST  {{host}}/api/v1/records
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "owner":"{{testUser1}}",
+    "game":"doudizhu",
+    "type":"sanzhang",
+    "roomId":"001200",
+    "roundCount":6,
+    "currentRound":4,
+    "config":{},
+    "done":true,
+    "players":[
+        {
+            "user":"{{testUser1}}",
+            "score":1,
+            "winCount": 1 ,
+            "loseCount": 1 ,
+            "drawCount": 0 
+        }
+    ],
+    "playbackIds":"00155255",
+    "rounds":[]
+}
+###
+

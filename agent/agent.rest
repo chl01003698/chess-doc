@@ -1,0 +1,360 @@
+@host =192.168.225.106:7001
+
+##########################===登录===##############################
+POST  http://{{host}}/agent/login HTTP/1.1
+Content-Type: application/json
+
+{
+    #电话号
+    "phone"     : "18849233294",
+    #密码
+    "password"  : "123456"
+}
+
+#返回
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "_id": "5a5ed9810435202727e8d983", #当前身份 ID
+#     "identity": "curator", #当前身份 
+#     "shortId": 100070,     #当前身份 短ID
+#     "phone": "18888882498", #当前身份 电话号
+#     "money": 100000,        #当前身份 金额
+#     "stock": 37,             #当前身份 库存
+#     "card": 10,               #当前身份 房卡
+#     "nickname": "",           #当前身份 昵称
+#     "level": 0,               #当前身份 等级
+#     "wechatNumber": "369hudongyule", #当前身份 微信号
+#     "bankCardholder": "财神",    #当前身份 持卡人
+#     "bankName": "招商银行",       #当前身份 银行名称
+#     "bankOpening": "北京市朝阳区发发发支行", #当前身份 开户行
+#     "bankCode": 999999,          #当前身份 银行卡号
+#以下是馆长身份相关 
+#     "curatorId": "5a5ed9840435202727e8d984", #当前身份 下棋牌室id
+#     "curatorShortId": 100025,                #当前身份 下棋牌室 短id
+#     "curatorCreatedAt": "2018-01-17T05:05:08.964Z", #当前身份 下棋牌室 创建时间
+#     "curatorChildCount": 6,                   #当前身份下棋牌室 管员数量
+#     "curatorLevel": 0,                        #当前身份下棋牌室 等级
+#     "curatorName": "未登陆",                    #当前身份下棋牌室 名称
+#以下是代理相关 字段和馆长一样
+#     "agentId": "5a5ed9810435202727e8d982",     
+#     "agentShortId": 100002,
+#     "agentCreatedAt": "2018-01-17T05:05:05.520Z",
+#     "agentChildCount": 0,
+#     "agentLevel": 0,
+#     "systemTiem": "2018-01-19 06:32:59" #系统时间
+#     "city": "",    #市
+#     "province": "",   #省
+#     "realname": "",   #真实姓名
+#     "identity": "", #身份证号
+#     "auth": 1         #验证 1 实名认证1界面(姓名 身份证) 2 实名认证2界面 (银行卡信息) 3已认证过
+#   }
+# }
+# identity :
+# 未知  unknown
+# 馆长  curator
+# 馆长+ curator+
+# 代理  agent
+
+
+##########################===我的棋牌室===##############################
+GET  http://{{host}}/api/v1/agents/myChessRoom HTTP/1.1
+
+#返回
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "name": "天天赢钱", 棋牌室名称
+#     "nickname": "",   昵称
+#     "stock": 25       库存数
+#   }
+# }
+
+##########################===修改密码===##############################
+POST  http://{{host}}/api/v1/agents/editPassword HTTP/1.1
+Content-Type: application/json
+
+{
+    #密码
+    "checkpassword": "123456",
+    "password"     : "123456",
+    "oldpassword"  : "123456"
+}
+
+# {
+#   "code": 0,  #0成功 -1失败
+#   "msg": "密码修改成功!",
+#   "data": true 
+# }
+
+##########################===退出===##############################
+GET   http://{{host}}/api/v1/agents/logout HTTP/1.1
+Content-Type: application/json
+
+# 返回
+# {
+#   "code": 0,
+#   "msg": "退出成功", 
+#   "data": true    
+# }
+
+##########################===棋牌室名称修改===##############################
+# 参数
+# name  棋牌室名称
+POST http://{{host}}/api/v1/agents/chessName HTTP/1.1
+Content-Type: application/json
+
+{
+	"name": "逢赌必赢"
+}
+
+##########################===棋牌室宣言修改===##############################
+# 参数
+# declaration 棋牌室宣言
+POST http://{{host}}/api/v1/agents/chessDeclaration HTTP/1.1
+Content-Type: application/json
+
+{
+	"declaration": "必赢"
+}
+
+##########################===获取棋牌室信息===##############################
+# 参数
+GET  http://{{host}}/api/v1/agents/getChessInfo HTTP/1.1
+Content-Type: application/json
+
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "name": "天天赢钱",             棋牌室名称
+#     "declaration": "逢赌必赢",      棋牌室宣言
+#     "childCount": 6,              管内总用户
+#     "nickname": "",               馆长昵称
+#     "stock": 25                   库存
+#     "curatorShortId":100013       棋牌室ID 
+#   }
+# }
+
+##########################===微信号修改===##############################
+# 参数
+# wechatNumber  微信号
+POST http://{{host}}/api/v1/agents/wechatNumber HTTP/1.1
+Content-Type: application/json
+
+{
+	"wechatNumber": "财源滚滚"
+}
+
+
+
+##########################===切换身份===##############################
+POST http://{{host}}/api/v1/agents/switchidentity HTTP/1.1
+Content-Type: application/json
+
+{
+	"identity": "agent"
+    # "identity": "curator"
+}
+
+#返回
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "_id": "5a6fe4d21082fb514ab6dbaf",
+#     "shortId": 100551,
+#     "phone": "18858375290",
+#     "money": 0,
+#     "stock": 10,
+#     "card": 10,
+#     "nickname": "测试用户18858375290",
+#     "level": 0,
+#     "wechatNumber": "",
+#     "bankCardholder": "",
+#     "bankName": "",
+#     "bankOpening": "",
+#     "bankCode": 0,
+#     "bankPhone": 0,
+#     "systemTiem": "2018-01-31 11:44:13",
+#     "city": "北京市",
+#     "province": "北京",
+#     "realname": "",
+#     "identityCode": "",
+#     "auth": 1,
+#     "curatorId": "5a6fe4d21082fb514ab6dbae",
+#     "curatorShortId": 100056,
+#     "curatorCreatedAt": "2018-01-30T03:21:54.763Z",
+#     "curatorChildCount": 10,
+#     "curatorLevel": 0,
+#     "curatorName": "",
+#     "identity": {
+#       "identity": "agentSuper",
+#       "current": "curator"
+#     }
+#   }
+# }
+
+##########################===认证用户姓名身份证===##############################
+# 参数
+# realname 真实姓名
+# identity 身份证
+# 41061120000613585x
+# 410611200006134259
+# 410611200006131533
+# 410611200006135817
+# 410611200006135219
+
+POST http://{{host}}/api/v1/agents/realauthrealname HTTP/1.1
+Content-Type: application/json
+
+{
+	"realname": "戴尔",
+    "identity": "410611200006134259"  
+}
+
+#返回
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": "认证用户名身份证成功"
+# }
+
+##########################===认证用户省市===##############################
+POST http://{{host}}/api/v1/agents/realauthrealcity HTTP/1.1
+Content-Type: application/json
+
+{
+	"city": "北京市",
+    "province": "北京"
+}
+
+#返回
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": "省市信息更新成功!"
+# }
+
+##########################===馆长数据统计===##############################
+#参数
+GET  http://{{host}}/api/v1/agents/curatordatacount HTTP/1.1
+
+# 返回 
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "stockCard": 10, 库存桌卡数
+#     "status": 9, 当前在线人数
+#     "childCount": 10,  管内总用户
+#     "newlyAdded": 9 新增馆长用户
+#     "sumMoney": 0, 总收益
+#      "money"  : 1, 待提金额
+#     "purchaseAmount":1 进货额
+#   }
+# }
+
+##########################===代理数据统计===##############################
+GET  http://{{host}}/api/v1/agents/agentdatacount HTTP/1.1
+
+# 返回 
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "sumMoney": 0, 总收益
+#     "money": 0, 代提金额
+#     "newAddCurator": 0, 新增馆长
+#     "currentCurator": 10, 当前馆长
+#     "purchaseAmount": 0, 进货额(代理的)
+#     "intraUserCount": 100 当前馆长管内总用户 
+#   }
+# }
+
+##########################===用户排行榜 馆长 代理===##############################
+#参数
+#type day 日 month 月 total 总
+#data 日期
+GET   http://{{host}}/api/v1/agents/getusercharts?type=total&limit=10&page=0 HTTP/1.1
+
+# 返回 
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "stockCard": 10, 库存桌卡数
+#     "status": 9, 当前在线人数
+#     "childCount": 10,  管内总用户
+#     "newlyAdded": 9 新增用户
+#     "sumMoney": 0, 总收益
+#      "money"  : 1, 代提金额
+#   }
+# }
+
+#   {
+#     "shortId": 105003,
+#     "nickname": "测试馆长18849233294", 昵称
+#     "revenue": "10", //馆长下是总销售  代理下是创收
+
+#代理
+#     "realname": "泽宬", 真实姓名
+#     "userCount": 7, 总用户
+#     "sale": 60   销售总额
+#   },
+
+# ##########################===馆长详情===##############################
+# GET http://{{host}}/api/v1/agents/curatorinfolist HTTP/1.1
+
+
+##########################===用户相关信息===##############################
+GET http://{{host}}/api/v1/agents/userinfo HTTP/1.1
+
+#返回
+# {
+#   "_id": "5a6fe4d21082fb514ab6dbaf",
+#   "shortId": 100551,
+#   "createdAt": "2018-01-30T03:21:54.766Z",
+#   "curator": "5a6fe4d21082fb514ab6dbae",
+#   "agentParent": "5a6fe4d21082fb514ab6dbaf",
+#   "curatorParent": "5a6fe4d21082fb514ab6dbaf",
+#   "bank": {
+#     "auth": false,
+#     "bankOpening": "北京市朝阳区发发发支行",
+#     "bankCardholder": "财神",
+#     "bankName": "招商银行",
+#     "bankCode": 999999,
+#     "bankPhone": 18686688429
+#   },
+#   "money": 0,
+#   "sumMoney": 0,
+#   "chessRoomId": 0,
+#   "realAuth": {
+#     "auth": false,
+#     "realname": "",
+#     "identity": "",
+#     "addrCode": "0",
+#     "sex": 0,
+#     "addr": "",
+#     "birth": "",
+#     "province": "北京",
+#     "city": "北京市"
+#   },
+#   "phone": "18858375290",
+#   "coin": {
+#     "card": 13,
+#     "bindCard": 9,
+#     "stock": 8
+#   }
+# }
+
+##########################===获取ShortID===##############################
+GET http://{{host}}/api/v1/agents/getshortid HTTP/1.1
+
+##########################===获取邀请好友名片===##############################
+GET http://{{host}}/api/v1/agents/getfriendcard HTTP/1.1
+
+##########################===获取邀请馆长名片地址===##############################
+GET http://{{host}}/api/v1/agents/getcuratorcard HTTP/1.1

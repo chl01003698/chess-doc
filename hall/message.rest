@@ -1,0 +1,126 @@
+
+@host = http://192.168.225.95:7005
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken= Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+@testUser1 = 5a7583eb3170c62c8407c2d3
+
+
+# 消息列表
+# 请求URL:{{host}}/api/v1/mails/:id
+# 请求参数:
+    # id:string 用户标识
+GET {{host}}/api/v1/mails/{{testUser1}}
+Authorization: {{token}}
+#返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": [
+#     {
+#       "_id": "5a633e6fd1a4bc94a016de62",  消息唯一标识
+#       "createdAt": "2018-01-20T13:04:47.982Z", 创建日期
+#       "weight": 0,                        消息权重 是否是最新消息 0为普通消息 1为最新消息
+#       "read": false,                      阅读状态
+#       "draw": false,                      领取状态
+#       "items": [
+#         {
+#           "_id": "5a633e6fd1a4bc94a016de63",
+#           "count": 1,
+#           "itemId": "card",                   桌卡id
+#           "type": 0                           0: 货币, 1: 物品
+#         }
+#       ],
+#       "content": "感谢您积极的配合，",       内容
+#       "btnTitle": "补偿",                   按钮标题
+#       "title": "更新奖励补偿",               内容标题
+#     }
+#   ]
+# }
+############################################################
+
+# 更新消息
+# 请求URL:{{host}}/api/v1/mails 
+# 请求参数:
+    # id:string 消息标识
+    # type:string 更新标识  read | draw
+PUT {{host}}/api/v1/mails
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "id": "5a6b1f32566f543794b2177e",
+    "type": "draw"
+}
+
+############################################################
+
+# 创建消息
+# 请求URL:{{host}}/api/v1/mails 
+POST {{host}}/api/v1/mails
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "to": "{{testUser1}}",
+    "title": "更新奖励补偿",
+    "btnTitle" : "补偿",
+    "subtitle" : "下面为您收到的维护补偿",
+    "content": "感谢您积极的配合，更新版本将为您带来更好的游戏体验，对本游戏有任何建议还望不吝赐教，客服小妹随时恭候您的莅临，我们会真诚聆听不断进步，将游戏体验越做越精。再次感谢您的陪伴，祝您游戏愉快.",
+    "items": [
+        {
+            "type": 0,
+            "itemId": "card",
+            "count": 1
+        }
+     ],
+    "draw": false,
+    "read": false,
+    "weight":0
+}
+############################################################
+
+###测试数据
+{
+    "to": "{{testUser1}}",
+    "title": "欢迎来到369熟人斗地主",
+    "btnTitle" : "369熟人斗地主",
+    "content": "369熟人斗地主是一款基于本地和同城的棋牌娱乐游戏，致力于制作最接底气的斗地主，让您在闲暇之余，跟亲友邻里组上一桌，氛围轻松，趣味斗智，结交牌友，尽在369熟人斗地主。同时我们提倡绿色、健康的游戏理念，坚决打击任何形式的外挂、赌博等违法行为！请大家一起努力营造一个良好的休闲娱乐氛围",
+    "read": false,
+    "weight":0
+}
+
+{
+    "to": "{{testUser1}}",
+    "title": "恭贺新春369送福",
+    "btnTitle" : "新春369送福",
+    "subtitle":"下面为您收到的更新奖励",
+    "content": "春节期间，2月15-2月21日，登录游戏即送游戏道具，祝您五福临门，新年大吉。",
+    "items": [
+        {
+            "type": 0,
+            "itemId": "card",
+            "count": 5
+        }
+     ],
+    "draw": false,
+    "read": false,
+    "weight":0
+}
+
+{
+    "to": "{{testUser1}}",
+    "title": "更新奖励",
+    "btnTitle" : "更新奖励",
+    "subtitle":"下面为您收到的更新奖励",
+    "content": "感谢您积极的配合，更新版本将为您带来更好的游戏体验，对本游戏有任何建议还望不吝赐教，客服小妹随时恭候您的莅临，我们会真诚聆听不断进步，将游戏体验越做越精。再次感谢您的陪伴，祝您游戏愉快.",
+    "items": [
+        {
+            "type": 0,
+            "itemId": "card",
+            "count": 1
+        }
+     ],
+    "draw": false,
+    "read": false,
+    "weight":0
+}

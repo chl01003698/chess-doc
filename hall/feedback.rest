@@ -1,0 +1,29 @@
+
+@host = http://192.168.225.95:7005
+@testUser1 = 5a6efca88fcbe23d70cb460a
+
+# 反馈列表
+GET {{host}}/api/v1/feedbacks
+Authorization: {{timeToken}}
+#############################################################
+
+
+# 创建反馈
+# 请求URL:{{host}}/api/v1/feedbacks
+# 请求参数:
+    # game:string       游戏标识
+    # type:string       反馈问题类型   login|pay|game|rule|bug|idea
+    # reporter:string   反馈用户标识
+    # desc:string       反馈内容
+    # contact:string    联系方式
+POST {{host}}/api/v1/feedbacks
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "game":"doudizhu",
+    "type": "game",
+    "reporter": "{{testUser1}}",
+    "desc":"测试反馈问题",
+    "contact":"1371555459"
+}

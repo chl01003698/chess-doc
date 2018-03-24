@@ -1,0 +1,49 @@
+
+@host = http://192.168.225.95:7005
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYwNzI5NDR9.rSM9YuWNkzeMsOK7OEiPdBPNl76UarAelQjGRgnG7QI
+@timeToken= Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTVkNmY0OTg0MDc0OTMzZTQ4YTk3OGEiLCJpYXQiOjE1MTYxNjA4NDAsImV4cCI6MTUxNjE2MDkwMH0.CsdgvxlYP7aXmH3Eakq28iPmW0sn0Ul9-ewqSH4Ws_s
+@testUser1 = 5a7a7f2fa33c14838814b96c
+@testUser2 = 5a79813734976271f4636c56
+
+
+# 已邀请好友列表
+# 请求URL:{{host}}/api/v1/users/friends/invited/:userId 
+# 请求参数:
+    # userId:string 用户标识 
+GET  {{host}}/api/v1/users/friends/invited/{{testUser1}}
+Authorization: {{token}}
+
+## 返回数据
+# {
+#   "code": 0,
+#   "msg": "ok",
+#   "data": {
+#     "_id": "5a63115b74bbeb8fa883d57a",  用户标识
+#     "invited": {
+#       "award": [],
+#       "friends": [
+#         {
+#           "_id": "5a63116074bbeb8fa883d57b",          邀请好友标识                  
+#           "createdAt": "2018-01-20T09:52:32.909Z",    邀请时期
+#           "nickname": "测试100027"                    好友昵称 
+#         }
+#       ]
+#     }
+#   }
+# }
+#####################################################################
+
+# 添加邀请好友
+# 请求URL:{{host}}/api/v1/users/friends/invited
+# 请求参数:
+    # userId:string 用户标识 
+    # friendId:string 好友标识
+POST  {{host}}/api/v1/users/friends/invited
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "userId":"{{testUser1}}",
+    "friendId":"{{testUser2}}"
+}
+###
